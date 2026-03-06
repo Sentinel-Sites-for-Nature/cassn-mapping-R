@@ -5,7 +5,12 @@
 #   data/cassn_gap_status.csv     — one row per site with gap_status (1–4 or NA)
 #   data/gap_status_lookup.csv    — 4-row lookup table: gap_status + description
 
-# --- PAD-US GDB path (update if you move the data) ---
+# --- PAD-US source settings ---
+# Preferred: local project subset tracked via Git LFS
+PADUS_SUBSET_GPKG  <- "data/padus_ca_subset.gpkg"
+PADUS_SUBSET_LAYER <- "padus_ca_subset"
+
+# Fallback: external PAD-US geodatabase (used only if subset is missing)
 PADUS_GDB   <- "/Users/johnimperato/Downloads/PADUS4_1_State_CA_GDB_KMZ/PADUS4_1_StateCA.gdb"
 PADUS_LAYER <- "PADUS4_1Comb_DOD_Trib_NGP_Fee_Desig_Ease_State_CA"
 
@@ -43,12 +48,23 @@ sites_df <- read_csv(ref_csv, show_col_types = FALSE)
 sites_sf  <- st_as_sf(sites_df, coords = c("longitude", "latitude"), crs = 4326)
 message("Loaded ", nrow(sites_sf), " reference sites")
 
-# --- 2. Load PAD-US combined layer (polygons) ---
-if (!file.exists(PADUS_GDB)) stop("PAD-US GDB not found: ", PADUS_GDB)
-
-message("Loading PAD-US layer (this may take a moment)...")
-padus <- st_read(PADUS_GDB, layer = PADUS_LAYER, quiet = TRUE) %>%
-  select(GAP_Sts, d_GAP_Sts)
+# --- 2. Load PAD-US layer (polygons) ---
+padus_subset_path <- file.path(project_root, PADUS_SUBSET_GPKG)
+if (file.exists(padus_subset_path)) {
+  message("Loading PAD-US subset from project data: ", padus_subset_path)
+  padus <- st_read(padus_subset_path, layer = PADUS_SUBSET_LAYER, quiet = TRUE) %>%
+    select(GAP_Sts, d_GAP_Sts)
+} else {
+  if (!file.exists(PADUS_GDB)) {
+    stop(
+      "PAD-US subset not found at ", padus_subset_path,
+      " and fallback GDB not found at ", PADUS_GDB
+    )
+  }
+  message("Loading PAD-US from external GDB (subset missing): ", PADUS_GDB)
+  padus <- st_read(PADUS_GDB, layer = PADUS_LAYER, quiet = TRUE) %>%
+    select(GAP_Sts, d_GAP_Sts)
+}
 
 message("Loaded ", nrow(padus), " PAD-US polygons (CRS: ", st_crs(padus)$input, ")")
 
