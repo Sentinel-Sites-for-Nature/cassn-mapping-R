@@ -1,0 +1,110 @@
+organization,campus,site_name,latitude,longitude
+CDFW,NA,Ash Creek Wildlife Area,41.14772,-121.07148
+CDFW,NA,Big Sandy Wildlife Area,35.78849982,-120.7284066
+CDFW,NA,Big Table Mountain Ecological Reserve,37.04807335,-119.5966113
+CDFW,NA,Burton Mesa Ecological Reserve,34.70879,-120.41006
+CDFW,NA,Camp Cady Wildlife Area,34.93652,-116.6084
+CDFW,NA,Canada de San Vicente Ecological Reserve,32.98525,-116.866626
+CDFW,NA,Canebrake Ecological Reserve,35.70627,-118.18714
+CDFW,NA,Carrizo Plains Ecological Reserve,35.150179,-119.956899
+CDFW,NA,Cañada de Los Osos Ecological Reserve,37.04971065,-121.3918797
+CDFW,NA,Cienega Springs Ecological Reserve,34.39176,-118.889293
+CDFW,NA,Cosumnes River Ecological Reserve,38.277081,-121.378935
+CDFW,NA,Elkhorn Slough Ecological Reserve,36.815556,-121.742222
+CDFW,NA,Fish Slough Ecological Reserve,37.454736,-118.4007089
+CDFW,NA,Fitzhugh Creek Wildlife Area,41.36612,-120.37899
+CDFW,NA,Great Basin Springs (Five Springs),40.53486,-120.13537
+CDFW,NA,Hallelujah Junction Wildlife Area,39.69254404,-120.0226762
+CDFW,NA,Honey Lake Wildlife Area,40.35106,-120.30266
+CDFW,NA,Hope Valley Wildlife Area,38.77263,-119.92893
+CDFW,NA,Imperial Wildlife Area,33.28127,-115.57808
+CDFW,NA,Indian Joe Springs Ecological Reserve,35.82482,-117.38765
+CDFW,NA,Lake Earl Wildlife Area,41.86198,-124.1869
+CDFW,NA,McLellan Mountain Peatland,40.4774892,-123.670269
+CDFW,NA,Monache Meadows Wildlife Area,36.225573,-118.178079
+CDFW,NA,Napa-Sonoma Marshes Wildlife Area,38.21691,-122.35361
+CDFW,NA,North Grasslands Wildlife Area,37.16112,-120.81362
+CDFW,NA,Palo Verde Ecological Reserve,33.690904,-114.532622
+CDFW,NA,Pickel Meadow Wildlife Area,38.347453,-119.5311
+CDFW,NA,Rancho Jamul Ecological Reserve,32.67681,-116.856382
+CDFW,NA,San Elijo Lagoon Ecological Reserve,33.00982,-117.2577
+CDFW,NA,San Felipe Creek Ecological Reserve,33.0917566,-115.916556
+CDFW,NA,San Felipe Valley Wildlife Area,33.11258,-116.525057
+CDFW,NA,Semitropic Ecological Reserve,35.70375,-119.61261
+CDFW,NA,Shasta Valley Wildlife Area,41.71851,-122.50182
+CDFW,NA,Spenceville Wildlife Area,39.13258372,-121.280279
+CDFW,NA,Sycuan Peak Ecological Reserve,32.77,-116.79953
+CDFW,NA,Tehama Wildlife Area,40.3126859,-121.8910738
+CDFW,NA,Upper Butte Basin Wildlife Area,39.39887,-121.87533
+CDFW,NA,Upper Newport Bay Ecological Reserve,33.62067,-117.891975
+CDFW,NA,Watsonville Slough Ecological Reserve,36.91053641,-121.7879741
+CSU,Sacramento,American River Parkway,38.56405664,-121.421289
+CSU,CSU LA,Ascot Hills,34.0705979,-118.1889221
+CSU,Fullerton,CSU Desert Studies Center,35.14302154,-116.1042053
+CSU,CSU Bakersfield,CSUB,35.348826,-119.103839
+CSU,CSUCI,CSUCI Regional Park,34.174522,-119.036711
+CSU,CSU Dominguez Hills,CSUDH Nature Reserve,33.860944,-118.264722
+CSU,Cal State San Bernardino,CSUSB Land Lab,34.186083000000004,-117.320167
+CSU,San Marcos,CSUSM Campus,33.130806,-117.154833
+CSU,Cal Poly - SLO,Chorro Creek Ecological Reserve,35.3398714,-120.8590481
+CSU,Sonoma State,Copeland Creek Urban Watershed,38.342672,-122.672132
+CSU,Stanislaus State,Corral Hollow,37.6401,-121.5955
+CSU,San Jose State University,Eden Landing ER,37.609969,-122.132939
+CSU,CSU Monterey Bay,Fort Ord Dunes State Park,36.653508,-121.822263
+CSU,Fresno State,Fresno State Greenhouse Pond,36.815131,-119.744547
+CSU,CSU Dominguez Hills,Gardena Willows Wetland Preserve,33.874722,-118.293333
+CSU,Stanislaus State,Lake Camanche,38.2239,-120.9589
+CSU,Cal Poly Humboldt,Lanphere Dunes - Humboldt Bay NWR,40.891716,-124.141267
+CSU,San Diego State University,Mission Trails Regional Park,32.819653,-117.05857
+CSU,Sacramento,Pine Hill Ecological Preserve,38.72272994,-120.9901897
+CSU,Fullerton,Robert J. Bernard Field Station,34.10928852,-117.7118183
+CSU,Fresno State,San Joaquin Experimental Range,37.095833,-119.729167
+CSU,Cal Poly - SLO,Santa Rita Ranch,35.528,-120.858
+CSU,Northridge,Santa Susana Field Laboratory,34.230833,-118.696389
+CSU,Cal Poly Humboldt,Schatz Experimental Tree Farm,40.77,-123.867
+CSU,Cal Poly - SLO,Swanton Pacific Ranch,37.0433,-122.222
+CSU,San Diego State University,Tecolote Canyon,32.7967,-117.214
+Pepperwood,NA,Pepperwood Preserve,38.56999427,-122.6895479
+TNC,NA,Dangermond @ Jalama HQ,34.51683,-120.458713
+TNC,NA,Santa Cruz Island @ Diablo Peak,34.02901,-119.784298
+TNC,NA,Santa Cruz Island @ Sierra Blanca,33.9815,-119.820315
+UCNRS,Berkeley,Angelo Coast Range Reserve,39.74055556,-123.6319444
+UCNRS,Santa Cruz,Año Nuevo Island Reserve,37.10833333,-122.3366667
+UCNRS,Berkeley,Blue Oak Ranch Reserve,37.381617,-121.737281
+UCNRS,Davis,Bodega Marine Reserve,38.317037,-123.071744
+UCNRS,Riverside,Box Springs Reserve,33.97138889,-117.3002778
+UCNRS,Riverside,Boyd Deep Canyon Desert Research Center,33.64805556,-116.3766667
+UCNRS,Irvine,Burns Piñon Ridge Reserve,34.14916667,-116.4541667
+UCNRS,Davis,Cahill Riparian Reserve,38.5075,-122.0969444
+UCNRS,Santa Barbara,Carpinteria Salt Marsh Reserve,34.40083333,-119.5347222
+UCNRS,Santa Barbara,Coal Oil Point Natural Reserve,34.40805556,-119.8777778
+UCNRS,San Diego,Dawson Los Monos Canyon Reserve,33.14861111,-117.2486111
+UCNRS,San Diego,Elliott Chaparral Reserve,32.88555556,-117.0863889
+UCNRS,Riverside,Emerson Oaks Reserve,33.46611111,-117.3472222
+UCNRS,Santa Cruz,Fort Ord Natural Reserve,36.68194444,-121.7802778
+UCNRS,Berkeley,Hastings Natural History Reservation,36.387305,-121.549903
+UCNRS,Riverside,James San Jacinto Mountains Reserve,33.80916667,-116.7752778
+UCNRS,Davis,Jepson Prairie Reserve,38.27527778,-121.8238889
+UCNRS,San Diego,Kendall-Frost Mission Bay Marsh Reserve,32.79416667,-117.2288889
+UCNRS,Santa Barbara,Kenneth S. Norris Rancho Marino Reserve,35.53722222,-121.0852778
+UCNRS,Santa Cruz,Landels-Hill Big Creek Reserve,36.07142,-121.599155
+UCNRS,Davis,Lassen Field Station,40.346656,-121.608041
+UCNRS,Davis,McLaughlin Natural Reserve,38.87388889,-122.4316667
+UCNRS,Merced,Merced Vernal Pools and Grassland Reserve,37.37527778,-120.4133333
+UCNRS,Riverside,Motte Rimrock Reserve,33.80361111,-117.26
+UCNRS,Berkeley,Point Reyes Field Station,37.99666667,-122.7033333
+UCNRS,Davis,Quail Ridge Reserve,38.48277778,-122.1494444
+UCNRS,Berkeley,Sagehen Creek Field Station,39.43166667,-120.2405556
+UCNRS,Irvine,San Joaquin Marsh Reserve,33.66166667,-117.8536111
+UCNRS,Santa Barbara,Santa Cruz Island Reserve,33.99694444,-119.7263889
+UCNRS,San Diego,Scripps Coastal Reserve,32.86694444,-117.2541667
+UCNRS,Santa Barbara,Sedgwick Reserve,34.69277778,-120.0411111
+UCNRS,Santa Barbara,Sierra Nevada Aquatic Research Laboratory,37.61388889,-118.8322222
+UCNRS,Irvine,Steele/Burnand Anza-Borrego Desert Research Center,33.24027778,-116.3888889
+UCNRS,Santa Cruz,Strathearn Ranch Reserve,36.83385,-121.1633
+UCNRS,Los Angeles,Stunt Ranch Santa Monica Mountains Reserve,34.09388889,-118.6566667
+UCNRS,Riverside,Sweeney Granite Mountains Desert Research Center,34.78138889,-115.6536111
+UCNRS,Santa Barbara,Valentine Camp,37.62972222,-118.9955556
+UCNRS,Los Angeles,White Mountain Research Center,37.36138889,-118.3266667
+UCNRS,Merced,Yosemite Field Station,37.53972222,-119.6580556
+UCNRS,Santa Cruz,Younger Lagoon Reserve,36.95083333,-122.0658333
