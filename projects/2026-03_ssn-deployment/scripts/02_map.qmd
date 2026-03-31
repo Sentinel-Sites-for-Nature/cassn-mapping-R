@@ -173,7 +173,7 @@ save_map <- function(plot_obj, filename) {
 panel <- compose_panel(
   deployment_sf,
   title    = "2026 UCNRS Sentinel Site Deployment Progress",
-  subtitle = "as of March 06, 2026"
+  subtitle = "as of March 31, 2026"
 )
 save_map(panel, "ucnrs_deployment_progress.png")
 grid::grid.draw(panel)
