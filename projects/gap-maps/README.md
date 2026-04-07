@@ -1,12 +1,14 @@
-# GAP Maps Project
+# GAP Maps
 
-This project maps and summarizes GAP protection status for CASSN sites using PAD-US 4.1.
+This project maps and summarizes GAP protection status for CA-SSN sites using PAD-US 4.1.
 
 ## What This Project Does
 
-- Assigns each CASSN site a GAP status (1-4, or `NA` when no overlap is found).
+- Assigns each CA-SSN site a GAP status (1–4, or `NA` when no overlap is found).
 - Produces tabular outputs for analysis.
 - Produces map outputs for all sites and by organization.
+
+> **Note:** Sites with `NA` status are labeled **"No Data"** — this means the site did not spatially overlap any PAD-US polygon. It does **not** mean the site is unprotected. 19 sites (mostly CSU/UCNRS on private land) fall in this category.
 
 ## Data Sources
 
@@ -50,6 +52,16 @@ Generated under `outputs/maps/`:
 - `gap_owner_Pepperwood.png`
 - `gap_owner_TNC.png`
 - `gap_owner_UCNRS.png`
+
+## Color Palette
+
+| GAP Status | Label | Color |
+|------------|-------|-------|
+| 1 | Managed for biodiversity — disturbance events proceed or are mimicked | `#0B6E4F` (dark green) |
+| 2 | Managed for biodiversity — disturbance events suppressed | `#F2C300` (yellow) |
+| 3 | Managed for multiple uses — generally extractive | `#F28E1C` (orange) |
+| 4 | No known mandate for biodiversity protection | `#C81D25` (red) |
+| No Data | No PAD-US polygon overlap found | `#AAAAAA` (gray) |
 
 ## Scripts
 
