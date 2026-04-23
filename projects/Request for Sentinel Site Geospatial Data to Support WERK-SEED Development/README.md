@@ -6,18 +6,18 @@ Project created to package UC CA-SSN point and polygon shapefiles and provide qu
 
 - `data/` - local copies of the shapefile components, organized into one folder per shapefile dataset
 - `scripts/00_setup.R` - installs required R packages into a project-local `.Rlib`
-- `scripts/01_sample_maps.qmd` - renders two simple static maps using the same California hillshade/lakes basemap pattern as `projects/gap-maps`
+- `scripts/01_sample_maps.qmd` - renders two simple static maps
 - `sample_maps/` - rendered PNG map outputs
 
 ## Data files
 
-- `data/uc_cassn_points_sites/uc_cassn_points_sites.shp` - UC sentinel site point layer
-- `data/uc_cassn_polygons_sites/uc_cassn_polygons_sites.shp` - UC reserve boundary polygon layer
-- `data/intensive_data_colelction_site_polygons/intensive_data_colelction_site_polygons.shp` - polygon subset for Angelo, Bodega, Cahill, Jepson, McLaughlin, and Quail intensive data collection sites
+- `data/uc_cassn_points_sites/uc_cassn_points_sites.shp` - UC Sentinel Sites point layer
+- `data/uc_cassn_polygons_sites/uc_cassn_polygons_sites.shp` - UC Sentinel Sites boundary polygon layer
+- `data/intensive_data_colelction_site_polygons/intensive_data_colelction_site_polygons.shp` - polygon subset for Angelo, Bodega, Cahill, Jepson, McLaughlin, and Quail intensive data collection sites where year round monitoring is occurring
 
 ## Notes
 
-- 5 sentinel site reserves currently do not have corresponding polygons in the supplied UC NRS polygon source. Those polygons can be added later if and when they become available.
+- 5 Sentinel Sites currently do not have corresponding polygons in the supplied UC NRS polygon source. Those polygons can be added later if and when they become available.
 - `data/intensive_data_colelction_site_polygons/intensive_data_colelction_site_polygons.shp` identifies the six intensive data collection sites where year-round monitoring is being conducted: Angelo, Bodega, Cahill, Jepson, McLaughlin, and Quail.
 
 ## Render
