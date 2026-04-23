@@ -17,7 +17,7 @@ Project created to package UC CA-SSN point and polygon shapefiles and provide qu
 
 ## Notes
 
-- 5 Sentinel Sites currently do not have corresponding polygons in the supplied UC NRS polygon source. Those polygons can be added later if and when they become available.
+- `Lassen Field Station`, `Point Reyes Field Station`, `Strathearn Ranch Reserve`, `White Mountain Research Center`, and `Yosemite Field Station` currently do not have corresponding polygons in the supplied UC NRS polygon source. Those polygons can be added later if and when they become available.
 - `data/intensive_data_colelction_site_polygons/intensive_data_colelction_site_polygons.shp` identifies the six intensive data collection sites where year-round monitoring is being conducted: Angelo, Bodega, Cahill, Jepson, McLaughlin, and Quail.
 
 ## Render
