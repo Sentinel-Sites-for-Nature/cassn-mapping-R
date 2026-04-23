@@ -6,9 +6,9 @@ Reproducible R-based mapping workflows for the **California Sentinel Sites for N
 
 | Project | Description |
 |---------|-------------|
-| [`projects/_reference`](projects/_reference/README.md) | Canonical spatial registry of all 109 CA-SSN sites — single source of truth for downstream projects |
+| [`projects/_reference`](projects/_reference/README.md) | Canonical spatial registry of all 109 CA-SSN sites |
 | [`projects/gap-maps`](projects/gap-maps/README.md) | GAP protection status (PAD-US 4.1) mapped across all CA-SSN sites |
-| [`projects/2026-03_ssn-deployment`](projects/2026-03_ssn-deployment/README.md) | UCNRS sentinel site deployment progress maps |
+| [`projects/2026-04_ssn-deployment`](projects/2026-04_ssn-deployment/README.md) | UCNRS sentinel site deployment progress maps |
 
 ## Repository layout
 
@@ -17,7 +17,7 @@ cassn-mapping-R/
 ├── projects/
 │   ├── _reference/              # canonical site registry
 │   ├── gap-maps/                # GAP protection status analysis
-│   └── 2026-03_ssn-deployment/  # UCNRS deployment progress
+│   └── 2026-04_ssn-deployment/  # UCNRS deployment progress
 ├── _templates/
 │   └── project_skeleton/        # template for new projects
 └── docs/

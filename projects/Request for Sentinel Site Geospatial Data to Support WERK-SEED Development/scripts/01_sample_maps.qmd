@@ -1,0 +1,201 @@
+---
+title: "UC CA-SSN Sample Maps"
+format: html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+suppressPackageStartupMessages({
+  cwd <- getwd()
+  project_name <- "Request for Sentinel Site Geospatial Data to Support WERK-SEED Development"
+  project_root <- if (basename(cwd) == "scripts") {
+    normalizePath(file.path(cwd, ".."), mustWork = FALSE)
+  } else if (basename(cwd) == project_name) {
+    normalizePath(cwd, mustWork = FALSE)
+  } else {
+    normalizePath(file.path(cwd, "projects", project_name), mustWork = FALSE)
+  }
+
+  project_lib <- file.path(project_root, ".Rlib")
+  shared_lib <- file.path(dirname(project_root), "gap-maps", ".Rlib")
+  lib_paths <- c()
+  if (dir.exists(project_lib)) lib_paths <- c(lib_paths, project_lib)
+  if (dir.exists(shared_lib)) lib_paths <- c(lib_paths, shared_lib)
+  if (length(lib_paths) > 0) .libPaths(c(lib_paths, .libPaths()))
+
+  library(sf)
+  library(dplyr)
+  library(ggplot2)
+  library(tigris)
+  library(rmapshaper)
+  library(rnaturalearth)
+  library(elevatr)
+  library(terra)
+})
+
+data_dir <- file.path(project_root, "data")
+out_dir <- file.path(project_root, "sample_maps")
+if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+points_path <- file.path(
+  data_dir, "uc_cassn_points_sites", "uc_cassn_points_sites.shp"
+)
+polygons_path <- file.path(
+  data_dir, "uc_cassn_polygons_sites", "uc_cassn_polygons_sites.shp"
+)
+
+points_sf <- st_read(points_path, quiet = TRUE) %>%
+  rename(site_name = rsrv_nm)
+polygons_sf <- st_read(polygons_path, quiet = TRUE) %>%
+  rename(site_name = Name, campus = Campus)
+
+status_levels <- c(
+  "Not yet visited",
+  "Infrastructure set up",
+  "Collecting data (1st round)",
+  "Collecting data (2nd round)"
+)
+status_palette <- c(
+  "Not yet visited" = "#D9D9D9",
+  "Infrastructure set up" = "#F2C300",
+  "Collecting data (1st round)" = "#74C476",
+  "Collecting data (2nd round)" = "#238B45"
+)
+
+points_sf$status <- factor(points_sf$status, levels = status_levels)
+
+options(tigris_use_cache = TRUE)
+ca <- tigris::states(cb = TRUE, year = 2023, class = "sf") %>%
+  filter(NAME == "California") %>%
+  st_transform(4326)
+ca <- rmapshaper::ms_simplify(ca, keep = 0.08, keep_shapes = TRUE)
+ca_bb <- st_bbox(ca)
+water_color <- "#D6E8F2"
+
+build_lakes <- function(ca) {
+  sf::sf_use_s2(FALSE)
+  on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+  tryCatch(
+    {
+      rnaturalearth::ne_download(
+        scale = 50, type = "lakes", category = "physical", returnclass = "sf"
+      ) %>%
+        st_transform(4326) %>%
+        st_make_valid() %>%
+        st_filter(st_buffer(ca, 0.05))
+    },
+    error = function(e) {
+      st_sf(geometry = st_sfc(crs = 4326))
+    }
+  )
+}
+
+build_hillshade <- function(ca) {
+  tryCatch(
+    {
+      ca_bb_sf <- st_as_sf(st_as_sfc(st_bbox(ca)))
+      ca_elev <- elevatr::get_elev_raster(locations = ca_bb_sf, z = 6, clip = "bbox")
+      ca_terra <- terra::rast(ca_elev)
+      slope <- terra::terrain(ca_terra, "slope", unit = "radians")
+      aspect <- terra::terrain(ca_terra, "aspect", unit = "radians")
+      hs <- terra::shade(slope, aspect, angle = 30, direction = 315)
+      hs <- terra::mask(hs, terra::vect(ca))
+      hs_df <- as.data.frame(hs, xy = TRUE)
+      names(hs_df)[3] <- "hillshade"
+      hs_df <- hs_df[!is.na(hs_df$hillshade), ]
+      hs_range <- range(hs_df$hillshade)
+      hs_df$hillshade <- (hs_df$hillshade - hs_range[1]) / (hs_range[2] - hs_range[1])
+      hs_df
+    },
+    error = function(e) NULL
+  )
+}
+
+lakes <- build_lakes(ca)
+hs_df <- build_hillshade(ca)
+
+base_map <- function() {
+  p <- ggplot()
+
+  if (!is.null(hs_df)) {
+    p <- p +
+      geom_raster(data = hs_df, aes(x = x, y = y, fill = hillshade), alpha = 0.45) +
+      scale_fill_gradient(low = "#666666", high = "#FFFFFF", guide = "none")
+  }
+
+  p +
+    geom_sf(data = ca, fill = NA, color = "#909090", linewidth = 0.5) +
+    geom_sf(data = lakes, fill = water_color, color = NA) +
+    coord_sf(
+      crs = 4326,
+      xlim = c(ca_bb["xmin"], ca_bb["xmax"]),
+      ylim = c(ca_bb["ymin"], ca_bb["ymax"]),
+      expand = FALSE
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      panel.grid = element_blank(),
+      panel.background = element_rect(fill = "white", color = NA),
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      plot.title = element_text(face = "bold", size = 15, hjust = 0.02),
+      plot.subtitle = element_text(size = 11, hjust = 0.02, color = "#555555")
+    )
+}
+
+points_plot <- base_map() +
+  geom_sf(
+    data = points_sf,
+    color = "black",
+    size = 2.4,
+    alpha = 0.95
+  ) +
+  labs(
+    title = "UC CA-SSN Points"
+  ) +
+  theme(legend.position = "none")
+
+polygon_plot <- base_map() +
+  geom_sf(
+    data = polygons_sf,
+    fill = "#CDE3B5",
+    color = "#486B32",
+    linewidth = 0.35,
+    alpha = 0.55
+  ) +
+  labs(
+    title = "UC CA-SSN Polygons"
+  ) +
+  theme(legend.position = "none")
+
+ggsave(
+  filename = file.path(out_dir, "uc_cassn_points_sites_map.png"),
+  plot = points_plot,
+  width = 11,
+  height = 8.5,
+  dpi = 300
+)
+
+ggsave(
+  filename = file.path(out_dir, "uc_cassn_polygons_sites_map.png"),
+  plot = polygon_plot,
+  width = 11,
+  height = 8.5,
+  dpi = 300
+)
+```
+
+## Points
+
+```{r}
+points_plot
+```
+
+## Polygons
+
+```{r}
+polygon_plot
+```
