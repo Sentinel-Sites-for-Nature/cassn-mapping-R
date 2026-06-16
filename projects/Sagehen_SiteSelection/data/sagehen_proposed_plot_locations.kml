@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Sagehen proposed plot locations</name>
+    <Style id="plot_pin">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Placemark>
+      <name>Plot 1</name>
+      <styleUrl>#plot_pin</styleUrl>
+      <ExtendedData>
+        <Data name="plot_id">
+          <value>1</value>
+        </Data>
+        <Data name="plot_label">
+          <value>Plot 1</value>
+        </Data>
+        <Data name="habitat_type">
+          <value>Riparian corridor</value>
+        </Data>
+        <Data name="latitude">
+          <value>39.4381861</value>
+        </Data>
+        <Data name="longitude">
+          <value>-120.2280556</value>
+        </Data>
+        <Data name="coordinate_dms">
+          <value>39°26'17.47"N 120°13'41.00"W</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-120.22805560,39.43818610,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Plot 2</name>
+      <styleUrl>#plot_pin</styleUrl>
+      <ExtendedData>
+        <Data name="plot_id">
+          <value>2</value>
+        </Data>
+        <Data name="plot_label">
+          <value>Plot 2</value>
+        </Data>
+        <Data name="habitat_type">
+          <value>Wet meadow</value>
+        </Data>
+        <Data name="latitude">
+          <value>39.4325639</value>
+        </Data>
+        <Data name="longitude">
+          <value>-120.2629333</value>
+        </Data>
+        <Data name="coordinate_dms">
+          <value>39°25'57.23"N 120°15'46.56"W</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-120.26293330,39.43256390,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Plot 3</name>
+      <styleUrl>#plot_pin</styleUrl>
+      <ExtendedData>
+        <Data name="plot_id">
+          <value>3</value>
+        </Data>
+        <Data name="plot_label">
+          <value>Plot 3</value>
+        </Data>
+        <Data name="habitat_type">
+          <value>Montane chaparral / manzanita-oak scrub</value>
+        </Data>
+        <Data name="latitude">
+          <value>39.431725</value>
+        </Data>
+        <Data name="longitude">
+          <value>-120.2296583</value>
+        </Data>
+        <Data name="coordinate_dms">
+          <value>39°25'54.21"N 120°13'46.77"W</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-120.22965830,39.43172500,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Plot 4</name>
+      <styleUrl>#plot_pin</styleUrl>
+      <ExtendedData>
+        <Data name="plot_id">
+          <value>4</value>
+        </Data>
+        <Data name="plot_label">
+          <value>Plot 4</value>
+        </Data>
+        <Data name="habitat_type">
+          <value>Dry pine / lower montane conifer forest</value>
+        </Data>
+        <Data name="latitude">
+          <value>39.4339361</value>
+        </Data>
+        <Data name="longitude">
+          <value>-120.2422222</value>
+        </Data>
+        <Data name="coordinate_dms">
+          <value>39°26'02.17"N 120°14'32.00"W</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-120.24222220,39.43393610,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Plot 5</name>
+      <styleUrl>#plot_pin</styleUrl>
+      <ExtendedData>
+        <Data name="plot_id">
+          <value>5</value>
+        </Data>
+        <Data name="plot_label">
+          <value>Plot 5</value>
+        </Data>
+        <Data name="habitat_type">
+          <value>Mesic montane conifer forest</value>
+        </Data>
+        <Data name="latitude">
+          <value>39.4210389</value>
+        </Data>
+        <Data name="longitude">
+          <value>-120.3117806</value>
+        </Data>
+        <Data name="coordinate_dms">
+          <value>39°25'15.74"N 120°18'42.41"W</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-120.31178060,39.42103890,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

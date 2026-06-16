@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# Create the derived Sagehen ecotone products from the clipped ds3271 layer.
+# Create the derived Sagehen vegetation products from the clipped ds3271 layer.
 
 cwd <- getwd()
 project_root <- if (basename(cwd) == "scripts") {
@@ -27,7 +27,7 @@ if (!file.exists(source_gpkg)) {
   stop("GeoPackage not found. Run 01_clip_ds3271_to_sagehen.R first: ", source_gpkg)
 }
 
-ecotone_levels <- c(
+vegetation_levels <- c(
   "Riparian corridor",
   "Wet meadow",
   "Dry sagebrush / mountain mahogany scrub",
@@ -37,7 +37,7 @@ ecotone_levels <- c(
   "Mesic montane conifer forest"
 )
 
-ecotone_palette <- c(
+vegetation_palette <- c(
   "Riparian corridor" = "#1F9E89",
   "Wet meadow" = "#54C6D4",
   "Dry sagebrush / mountain mahogany scrub" = "#D2B55B",
@@ -47,7 +47,7 @@ ecotone_palette <- c(
   "Mesic montane conifer forest" = "#185C7A"
 )
 
-# Ecotone grouping logic:
+# Vegetation grouping logic:
 # - Woody mesic corridor types are separated from wet meadows because willow,
 #   alder, and aspen add vertical structure, cover, and edge habitat that open
 #   meadow polygons do not.
@@ -63,7 +63,7 @@ veg <- st_read(source_gpkg, layer = "ds3271_sagehen_clip", quiet = TRUE) %>%
   st_make_valid() %>%
   mutate(
     CalVegType = if_else(is.na(CalVegType) | CalVegType == "", "Unclassified", CalVegType),
-    ecotone = case_when(
+    vegetation_group = case_when(
       CalVegType %in% c("Mountain Alder", "Willow (Shrub)", "Quaking Aspen") ~
         "Riparian corridor",
       CalVegType == "Wet Meadows" ~
@@ -80,17 +80,16 @@ veg <- st_read(source_gpkg, layer = "ds3271_sagehen_clip", quiet = TRUE) %>%
         "Mesic montane conifer forest",
       TRUE ~ "Herbaceous / open"
     ),
-    ecotone = factor(ecotone, levels = ecotone_levels),
+    vegetation_group = factor(vegetation_group, levels = vegetation_levels),
     source_polygon_acres = as.numeric(st_area(.)) * 0.000247105381
   )
 
-ecotone_gpkg <- file.path(data_dir, "ds3271_sagehen_ecotones.gpkg")
-ecotone_earth_gpkg <- file.path(data_dir, "ds3271_sagehen_ecotones_google_earth.gpkg")
-ecotone_kml <- file.path(data_dir, "ds3271_sagehen_ecotones.kml")
-ecotone_kmz <- file.path(data_dir, "ds3271_sagehen_ecotones.kmz")
+vegetation_gpkg <- file.path(data_dir, "ds3271_sagehen_vegetation_groups.gpkg")
+vegetation_kml <- file.path(data_dir, "ds3271_sagehen_vegetation_groups.kml")
+vegetation_kmz <- file.path(data_dir, "ds3271_sagehen_vegetation_groups.kmz")
 
-ecotone_product <- veg %>%
-  group_by(ecotone) %>%
+vegetation_product <- veg %>%
+  group_by(vegetation_group) %>%
   summarise(
     source_polygon_count = n(),
     source_vegetation_types = paste(sort(unique(CalVegType)), collapse = "; "),
@@ -98,55 +97,46 @@ ecotone_product <- veg %>%
     clipped_hectares = clipped_acres * 0.404685642,
     .groups = "drop"
   ) %>%
-  arrange(factor(ecotone, levels = ecotone_levels)) %>%
+  arrange(factor(vegetation_group, levels = vegetation_levels)) %>%
   mutate(
-    ecotone_class = as.integer(factor(ecotone, levels = ecotone_levels)),
-    ecotone = as.character(ecotone)
+    vegetation_class = as.integer(factor(vegetation_group, levels = vegetation_levels)),
+    vegetation_group = as.character(vegetation_group)
   ) %>%
-  select(ecotone_class, ecotone, source_polygon_count, source_vegetation_types,
+  select(vegetation_class, vegetation_group, source_polygon_count, source_vegetation_types,
          clipped_acres, clipped_hectares) %>%
   st_collection_extract("POLYGON", warn = FALSE) %>%
   st_cast("MULTIPOLYGON", warn = FALSE) %>%
   st_make_valid()
 
 st_write(
-  ecotone_product,
-  ecotone_gpkg,
-  layer = "ds3271_sagehen_ecotones",
+  vegetation_product,
+  vegetation_gpkg,
+  layer = "ds3271_sagehen_vegetation_groups",
   delete_dsn = TRUE,
   quiet = TRUE
 )
-message("Written: ", ecotone_gpkg)
+message("Written: ", vegetation_gpkg)
 
 # Google Earth renders KML/KMZ most reliably when the source polygons remain
 # separate. The dissolved analysis GeoPackage can create very complex multipart
 # forest geometries with many holes, so the Earth export keeps one placemark per
-# clipped source polygon and groups those placemarks into ecotone folders.
-ecotone_earth <- veg %>%
+# clipped source polygon and groups those placemarks into vegetation folders.
+vegetation_earth <- veg %>%
   mutate(
-    ecotone_class = as.integer(factor(ecotone, levels = ecotone_levels)),
-    ecotone = as.character(ecotone),
+    vegetation_class = as.integer(factor(vegetation_group, levels = vegetation_levels)),
+    vegetation_group = as.character(vegetation_group),
     source_vegetation_type = CalVegType,
     clipped_acres = source_polygon_acres,
     clipped_hectares = clipped_acres * 0.404685642
   ) %>%
-  select(ecotone_class, ecotone, source_vegetation_type, clipped_acres, clipped_hectares) %>%
+  select(vegetation_class, vegetation_group, source_vegetation_type, clipped_acres, clipped_hectares) %>%
   st_collection_extract("POLYGON", warn = FALSE) %>%
   st_cast("MULTIPOLYGON", warn = FALSE) %>%
   st_make_valid()
 
-st_write(
-  ecotone_earth,
-  ecotone_earth_gpkg,
-  layer = "ds3271_sagehen_ecotones_google_earth",
-  delete_dsn = TRUE,
-  quiet = TRUE
-)
-message("Written: ", ecotone_earth_gpkg)
-
-ecotone_earth_wgs <- ecotone_earth %>%
+vegetation_earth_wgs <- vegetation_earth %>%
   st_transform(4326) %>%
-  arrange(ecotone_class, source_vegetation_type)
+  arrange(vegetation_class, source_vegetation_type)
 
 hex_to_kml_color <- function(hex, alpha = "B3") {
   rgb <- grDevices::col2rgb(hex)
@@ -183,35 +173,35 @@ add_geometry <- function(parent, geometry) {
 
 kml_doc <- xml_new_root("kml", xmlns = "http://www.opengis.net/kml/2.2")
 doc_node <- xml_add_child(kml_doc, "Document")
-xml_add_child(doc_node, "name", "Sagehen vegetation ecotones")
+xml_add_child(doc_node, "name", "Sagehen vegetation groups")
 
-for (ecotone in ecotone_levels) {
-  style_id <- paste0("ecotone_", match(ecotone, ecotone_levels))
+for (vegetation_group in vegetation_levels) {
+  style_id <- paste0("vegetation_", match(vegetation_group, vegetation_levels))
   style_node <- xml_add_child(doc_node, "Style", id = style_id)
   line_style <- xml_add_child(style_node, "LineStyle")
   xml_add_child(line_style, "color", "ff333333")
   xml_add_child(line_style, "width", "1")
   poly_style <- xml_add_child(style_node, "PolyStyle")
-  xml_add_child(poly_style, "color", hex_to_kml_color(ecotone_palette[[ecotone]]))
+  xml_add_child(poly_style, "color", hex_to_kml_color(vegetation_palette[[vegetation_group]]))
   xml_add_child(poly_style, "fill", "1")
   xml_add_child(poly_style, "outline", "1")
 }
 
-for (ecotone in ecotone_levels) {
+for (vegetation_group in vegetation_levels) {
   folder <- xml_add_child(doc_node, "Folder")
-  xml_add_child(folder, "name", ecotone)
-  class_data <- ecotone_earth_wgs %>% filter(.data$ecotone == .env$ecotone)
+  xml_add_child(folder, "name", vegetation_group)
+  class_data <- vegetation_earth_wgs %>% filter(.data$vegetation_group == .env$vegetation_group)
   for (i in seq_len(nrow(class_data))) {
     attrs <- st_drop_geometry(class_data[i, ])
     placemark <- xml_add_child(folder, "Placemark")
     xml_add_child(
       placemark,
       "name",
-      paste(attrs$ecotone, attrs$source_vegetation_type, sep = " - ")
+      paste(attrs$vegetation_group, attrs$source_vegetation_type, sep = " - ")
     )
-    xml_add_child(placemark, "styleUrl", paste0("#ecotone_", attrs$ecotone_class))
+    xml_add_child(placemark, "styleUrl", paste0("#vegetation_", attrs$vegetation_class))
     ext <- xml_add_child(placemark, "ExtendedData")
-    for (field in c("ecotone_class", "ecotone", "source_vegetation_type", "clipped_acres", "clipped_hectares")) {
+    for (field in c("vegetation_class", "vegetation_group", "source_vegetation_type", "clipped_acres", "clipped_hectares")) {
       data_node <- xml_add_child(ext, "Data", name = field)
       xml_add_child(data_node, "value", as.character(attrs[[field]]))
     }
@@ -219,17 +209,17 @@ for (ecotone in ecotone_levels) {
   }
 }
 
-write_xml(kml_doc, ecotone_kml, options = "format")
+write_xml(kml_doc, vegetation_kml, options = "format")
 
-kmz_tmp <- file.path(tempdir(), "sagehen_ecotones_kmz")
+kmz_tmp <- file.path(tempdir(), "sagehen_vegetation_groups_kmz")
 if (dir.exists(kmz_tmp)) unlink(kmz_tmp, recursive = TRUE)
 dir.create(kmz_tmp, recursive = TRUE)
-invisible(file.copy(ecotone_kml, file.path(kmz_tmp, "doc.kml"), overwrite = TRUE))
-if (file.exists(ecotone_kmz)) unlink(ecotone_kmz)
+invisible(file.copy(vegetation_kml, file.path(kmz_tmp, "doc.kml"), overwrite = TRUE))
+if (file.exists(vegetation_kmz)) unlink(vegetation_kmz)
 old_wd <- setwd(kmz_tmp)
 on.exit(setwd(old_wd), add = TRUE)
-utils::zip(ecotone_kmz, files = "doc.kml", flags = "-q")
+utils::zip(vegetation_kmz, files = "doc.kml", flags = "-q")
 setwd(old_wd)
 
-message("Written: ", ecotone_kml)
-message("Written: ", ecotone_kmz)
+message("Written: ", vegetation_kml)
+message("Written: ", vegetation_kmz)

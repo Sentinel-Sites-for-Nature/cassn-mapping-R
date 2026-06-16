@@ -64,7 +64,7 @@ basemap <- get_tiles(
   verbose = TRUE
 )
 
-ecotone_levels <- c(
+vegetation_levels <- c(
   "Riparian corridor",
   "Wet meadow",
   "Dry sagebrush / mountain mahogany scrub",
@@ -74,7 +74,7 @@ ecotone_levels <- c(
   "Mesic montane conifer forest"
 )
 
-ecotone_palette <- c(
+vegetation_palette <- c(
   "Riparian corridor" = "#1F9E89",
   "Wet meadow" = "#54C6D4",
   "Dry sagebrush / mountain mahogany scrub" = "#D2B55B",
@@ -84,13 +84,13 @@ ecotone_palette <- c(
   "Mesic montane conifer forest" = "#185C7A"
 )
 
-# Ecotone grouping logic mirrors 03_create_ecotone_products.R: riparian woody
+# Vegetation grouping logic mirrors 03_create_vegetation_products.R: riparian woody
 # types are separated from wet meadow, dry shrub is separated from montane
 # chaparral, and conifer forest is split by warmer/drier pine versus mesic
 # montane fir/lodgepole/hemlock/white pine conditions.
 veg_3857 <- veg_3857 %>%
   mutate(
-    ecotone = case_when(
+    vegetation_group = case_when(
       CalVegType %in% c("Mountain Alder", "Willow (Shrub)", "Quaking Aspen") ~
         "Riparian corridor",
       CalVegType == "Wet Meadows" ~
@@ -107,7 +107,7 @@ veg_3857 <- veg_3857 %>%
         "Mesic montane conifer forest",
       TRUE ~ "Herbaceous / open"
     ),
-    ecotone = factor(ecotone, levels = ecotone_levels)
+    vegetation_group = factor(vegetation_group, levels = vegetation_levels)
   )
 
 veg_types <- veg_3857 %>%
@@ -245,24 +245,24 @@ save_map(
 
 save_map(
   make_map(
-    "ecotone",
-    ecotone_palette,
+    "vegetation_group",
+    vegetation_palette,
     "Habitat Type",
-    "Sagehen Vegetation Ecotones"
+    "Sagehen Vegetation Groups"
   ),
-  "ds3271_sagehen_ecotones_map.png"
+  "ds3271_sagehen_vegetation_groups_map.png"
 )
 
 if (!is.null(plot_locations_3857)) {
   save_map(
     make_map(
-      "ecotone",
-      ecotone_palette,
+      "vegetation_group",
+      vegetation_palette,
       "Habitat Type",
       "Sagehen Proposed Plot Locations",
       fill_alpha = 0.46,
       plot_locations = plot_locations_3857
     ),
-    "ds3271_sagehen_ecotones_proposed_plots_map.png"
+    "sagehen_proposed_plot_locations_map.png"
   )
 }
